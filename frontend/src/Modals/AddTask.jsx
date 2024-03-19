@@ -42,7 +42,9 @@ const AddTask=(props)=>{
       setwholedata({ ...wholedata, [event.target.id]: event.target.value });
     };
     const addTask=()=>{
-      Axios.post("add",{shortdes:wholedata.shortdes,longdes:wholedata.longdes,assignedto:wholedata.assignedto,ip:props.ip})
+      if(wholedata.shortdes!="" && wholedata.assignedto)
+      {
+        Axios.post("add",{shortdes:wholedata.shortdes,longdes:wholedata.longdes,assignedto:wholedata.assignedto,ip:props.ip})
       .then((res) => {
         if (res.status === 200) {
           props.setchange("add");
@@ -58,6 +60,14 @@ const AddTask=(props)=>{
 
         }
       });
+      }
+      else
+      {
+        props.setOpen(true);
+        props.setalert("error");
+        props.setmessage("Enter the Mandatory fields");
+      }
+      
     }
 return (
   <Modal
@@ -103,7 +113,7 @@ return (
 				onChange={(event, newValue) => {
           setwholedata({ ...wholedata, assignedto: newValue });
 				}}
-				renderInput={(params) => <TextField id="validation-outlined-input" {...params} label="Assign To" />}
+				renderInput={(params) => <TextField id="validation-outlined-input" {...params} label="Assign To*" />}
 				/>
             </Grid>
         </Grid>
