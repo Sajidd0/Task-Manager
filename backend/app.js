@@ -1,14 +1,15 @@
 import express from "express"
 import cors from "cors"
 import mysql from "mysql"
+import 'dotenv/config'
 const app = express();
 app.use(cors());
 app.use(express.json());
 const db=mysql.createConnection({
-    host:process.env.DBLINK || "localhost",
-    user:"root",
-    password:"Sajid864",
-    database:"taskmanagerdb"
+    host:process.env.DB_HOST ,
+    user:process.env.DB_USER,
+    password:process.env.DB_PASSWORD,
+    database:process.env.DB_DATABASE
 })
 app.post("/alltasks/:ip",(req,res)=>{
     const q="SELECT * FROM tasks WHERE ip=?";
@@ -72,7 +73,7 @@ app.put("/update",(req,res)=>{
         }
     })
 })
-const PORT = process.env.PORT || 8081
+const PORT = process.env.PORT
 app.listen(PORT,()=>{
     console.log("Connected to backend")
 })
