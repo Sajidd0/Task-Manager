@@ -12,21 +12,24 @@ const ViewTasks=(props)=>{
     const[alert,setalert]=React.useState("");
     const[message,setmessage]=React.useState("");
     const [change,setchange]=React.useState("");
+    const [ipAddress, setIPAddress] = React.useState('');
     React.useEffect(()=>{
-        Axios.post("alltasks/"+props.ip)
-      .then((res) => {
-        if (res.status === 200) {
-            setchange("");
-            setdata(res.data);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        if (err.status === 401) {
-
-        }
-      });
-    },[change])
+        fetch('https://api.ipify.org?format=json')
+        .then(response => response.json())
+        .then(data => {Axios.post("alltasks/"+data.ip)
+        .then((res) => {
+          if (res.status === 200) {
+              setchange("");
+              setdata(res.data);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          if (err.status === 401) {
+  
+          }})
+        .catch(error => console.log(error))
+     }) },[change])
     return (
         <Box sx={{height:"100vh",mt:20}}>
         <Grid sx={{display:"flex",justifyContent:{xs:"center",md:"start"}}}  container>
@@ -66,7 +69,7 @@ const ViewTasks=(props)=>{
           setOpen={setOpen}
           setalert={setalert}
           setmessage={setmessage}
-          ip={props.ip}
+          ip={ipAddress}
           />
             <Snackbar
           open={open}
