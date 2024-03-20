@@ -5,7 +5,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 const db=mysql.createConnection({
-    host:"localhost",
+    host:process.env.DBLINK || "localhost",
     user:"root",
     password:"Sajid864",
     database:"taskmanagerdb"
@@ -72,6 +72,7 @@ app.put("/update",(req,res)=>{
         }
     })
 })
-app.listen(8081,()=>{
+const PORT = process.env.PORT || 8081
+app.listen(PORT,()=>{
     console.log("Connected to backend")
 })

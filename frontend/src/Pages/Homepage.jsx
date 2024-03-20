@@ -37,8 +37,7 @@ const Homepage=(props)=>{
 	                loop={true}
                     autoplay= {true}
                     animationData= {animationData}
-                    width={100}
-                    height={100}
+                    style={{height:"600px"}}
                 />
             </Grid>
 
